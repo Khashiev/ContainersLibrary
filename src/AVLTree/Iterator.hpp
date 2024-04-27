@@ -37,7 +37,7 @@ class Iterator {
       } else {
         Node<T, V>* parent = node_->parent;
         while (parent != nullptr && node_ == parent->right) {
-          node_->parent;
+          node_ = parent;
           parent = parent->parent;
         }
         node_ = parent;
