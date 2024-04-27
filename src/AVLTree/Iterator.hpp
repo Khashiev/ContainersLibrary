@@ -66,7 +66,7 @@ class Iterator {
     return OperatorHelper();
   }
 
-  Iterator operator--() {
+  Iterator operator--(int) {
     Iterator tmp = *this;
     --(*this);
     return tmp;
@@ -84,9 +84,9 @@ class Iterator {
     return node_->key;
   }
 
-  pointer operator->() const {return &node_->key};
+  pointer operator->() const { return &node_->key; }
 
-  int Size(Node<T, V>* node >) {
+  int Size(Node<T, V>* node) {
     if (node) return node->size_;
     return 0;
   }

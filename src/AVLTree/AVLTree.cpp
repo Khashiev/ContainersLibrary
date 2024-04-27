@@ -12,7 +12,7 @@ template <typename T, typename V>
 AVLTree<T, V>& AVLTree<T, V>::operator=(AVLTree&& other) noexcept {
   if (this != &other) {
     Clear(root);
-    root = exchange(other.root, nullptr)
+    root = exchange(other.root, nullptr);
   }
 
   return *this;
