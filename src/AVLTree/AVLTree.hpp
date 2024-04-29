@@ -10,7 +10,7 @@ class Node {
   mutable T key;
   int height;
   size_t size_;
-  bool isSentinel;
+
   Node<T, V>* left;
   Node<T, V>* right;
   Node<T, V>* parent;
@@ -19,7 +19,6 @@ class Node {
       : key(k),
         height(1),
         size_(1),
-        isSentinel(false),
         left(nullptr),
         right(nullptr),
         parent(nullptr) {}
@@ -28,7 +27,6 @@ class Node {
       : key(k),
         height(1),
         size_(1),
-        isSentinel(false),
         left(nullptr),
         right(nullptr),
         parent(nullptr) {}
@@ -45,13 +43,14 @@ class AVLTree {
   Node<T, V>* Insert(T key);
   void Remove(T key);
   Node<T, V>* Search(T key);
-  Node<T, V>* GetRoot() const;
-  Node<T, V>* GetNil();
-  void SetRoot(Node<T, V>* root);
   void Swap(AVLTree<T, V>& other);
   void Clear(Node<T, V>* node);
+
+  Node<T, V>* GetRoot() const;
+  Node<T, V>* GetNil();
   bool GetInserted();
-  Node<T, V>* MaximumKey(Node<T, V>* node);
+  void SetRoot(Node<T, V>* root);
+  Node<T, V>* MaxKey(Node<T, V>* node);
 
  private:
   Node<T, V>* root;
@@ -63,15 +62,18 @@ class AVLTree {
   void UpdateSize(Node<T, V>* node);
   int BalanceFactor(Node<T, V>* node);
   void UpdateHeight(Node<T, V>* node);
+
   Node<T, V>* Balance(Node<T, V>* node);
-  Node<T, V>* FindMin(Node<T, V>* node);
   Node<T, V>* CopyTree(Node<T, V>* node);
   Node<T, V>* RotateLeft(Node<T, V>* node);
   Node<T, V>* RotateRight(Node<T, V>* node);
-  Node<T, V>* RemoveMin(Node<T, V>* node);
-  Node<T, V>* Remove(Node<T, V>* node, T key);
+
   Node<T, V>* Search(Node<T, V>* node, T key);
+  Node<T, V>* FindMin(Node<T, V>* node);
+
   Node<T, V>* Insert(Node<T, V>* node, T key, Node<T, V>* parent);
+  Node<T, V>* Remove(Node<T, V>* node, T key);
+  Node<T, V>* RemoveMin(Node<T, V>* node);
 };
 
 template <typename T, typename V>
@@ -101,7 +103,7 @@ class Iterator {
   pointer operator->() const { return &node_->key; }
 
   int Size(Node<T, V>* node) { return node ? node->size_ : 0; }
-  Node<T, V>* MaximumKey(Node<T, V>* node);
+  Node<T, V>* MaxKey(Node<T, V>* node);
   Iterator& OperatorHelper();
 
  protected:

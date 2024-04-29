@@ -262,10 +262,10 @@ Node<T, V>* AVLTree<T, V>::CopyTree(Node<T, V>* node) {
 }
 
 template <typename T, typename V>
-Node<T, V>* AVLTree<T, V>::MaximumKey(Node<T, V>* node) {
+Node<T, V>* AVLTree<T, V>::MaxKey(Node<T, V>* node) {
   if (node != nullptr) {
     while (node->right != nullptr) {
-      return this->MaximumKey(node->right);
+      return this->MaxKey(node->right);
     }
     return node;
   }
@@ -323,7 +323,7 @@ Iterator<T, V>& Iterator<T, V>::operator--() {
     if (node_ != nullptr) {
       return OperatorHelper();
     }
-    node_ = MaximumKey(root_);
+    node_ = MaxKey(root_);
     return *this;
   }
 
@@ -348,10 +348,10 @@ T& Iterator<T, V>::operator*() {
 }
 
 template <typename T, typename V>
-Node<T, V>* Iterator<T, V>::MaximumKey(Node<T, V>* node) {
+Node<T, V>* Iterator<T, V>::MaxKey(Node<T, V>* node) {
   if (node != nullptr) {
     while (node->right != nullptr) {
-      this->MaximumKey(node->right);
+      this->MaxKey(node->right);
     }
     return node;
   }
