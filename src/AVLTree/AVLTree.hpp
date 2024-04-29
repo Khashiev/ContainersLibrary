@@ -1,7 +1,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 
-#include <iostream>
+#include <cstddef>
 
 namespace s21 {
 template <typename T, typename V>
@@ -72,6 +72,51 @@ class AVLTree {
   Node<T, V>* Remove(Node<T, V>* node, T key);
   Node<T, V>* Search(Node<T, V>* node, T key);
   Node<T, V>* Insert(Node<T, V>* node, T key, Node<T, V>* parent);
+};
+
+template <typename T, typename V>
+class Iterator {
+ public:
+  using key_type = T;
+  using reference = T&;
+  using const_reference = const reference;
+  using pointer = T*;
+
+  Iterator(Node<T, V>* node = nullptr) : node_(node) {}
+  Iterator(Node<T, V>* nil, Node<T, V>* root) : node_(nil), root_(root) {}
+  Iterator(const Iterator&) = default;
+  Iterator& operator=(const Iterator&) = default;
+  ~Iterator() = default;
+
+  Iterator operator+(const size_t value);
+  Iterator& operator++();
+  Iterator operator++(int);
+  Iterator& operator--();
+  Iterator operator--(int);
+
+  bool operator==(const Iterator& other) const { return node_ == other.node_; }
+  bool operator!=(const Iterator& other) const { return node_ != other.node_; }
+
+  reference operator*();
+  pointer operator->() const { return &node_->key; }
+
+  int Size(Node<T, V>* node) { return node ? node->size_ : 0; }
+  Node<T, V>* MaximumKey(Node<T, V>* node);
+  Iterator& OperatorHelper();
+
+ protected:
+  Node<T, V>* node_;
+  Node<T, V>* root_;
+};
+
+template <typename T, typename V>
+class ConstIterator : public Iterator<const T, const V> {
+ public:
+  using Iterator<const T, const V>::Iterator;
+  using typename Iterator<const T, const V>::key_type;
+  using typename Iterator<const T, const V>::reference;
+  using typename Iterator<const T, const V>::const_reference;
+  using typename Iterator<const T, const V>::pointer;
 };
 
 }  // namespace s21

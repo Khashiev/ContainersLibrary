@@ -278,4 +278,107 @@ Node<T, V>* AVLTree<T, V>::GetNil() {
   return nil;
 }
 
+template <typename T, typename V>
+Iterator<T, V> Iterator<T, V>::operator+(const size_t value) {
+  Iterator tmp = *this;
+  for (size_t i = 0; i < value; i++) {
+    ++tmp;
+  }
+
+  return tmp;
+}
+
+template <typename T, typename V>
+Iterator<T, V>& Iterator<T, V>::operator++() {
+  if (node_ != nullptr) {
+    if (node_->right != nullptr) {
+      node_ = node_->right;
+      while (node_->left != nullptr) {
+        node_ = node_->left;
+      }
+    } else {
+      Node<T, V>* parent = node_->parent;
+      while (parent != nullptr && node_ == parent->right) {
+        node_ = parent;
+        parent = parent->parent;
+      }
+      node_ = parent;
+    }
+    return *this;
+  }
+
+  return *this;
+}
+
+template <typename T, typename V>
+Iterator<T, V> Iterator<T, V>::operator++(int) {
+  Iterator tmp = *this;
+  ++(*this);
+  return tmp;
+}
+
+template <typename T, typename V>
+Iterator<T, V>& Iterator<T, V>::operator--() {
+  if (Size(root_) > 0) {
+    if (node_ != nullptr) {
+      return OperatorHelper();
+    }
+    node_ = MaximumKey(root_);
+    return *this;
+  }
+
+  return OperatorHelper();
+}
+
+template <typename T, typename V>
+Iterator<T, V> Iterator<T, V>::operator--(int) {
+  Iterator tmp = *this;
+  --(*this);
+  return tmp;
+}
+
+template <typename T, typename V>
+T& Iterator<T, V>::operator*() {
+  if (node_ == nullptr) {
+    static T default_value = T{};
+    return default_value;
+  }
+
+  return node_->key;
+}
+
+template <typename T, typename V>
+Node<T, V>* Iterator<T, V>::MaximumKey(Node<T, V>* node) {
+  if (node != nullptr) {
+    while (node->right != nullptr) {
+      this->MaximumKey(node->right);
+    }
+    return node;
+  }
+  return nullptr;
+}
+
+template <typename T, typename V>
+Iterator<T, V>& Iterator<T, V>::OperatorHelper() {
+  if (node_ != nullptr) {
+    if (node_->left != nullptr) {
+      node_ = node_->left;
+
+      while (node_->right) {
+        node_ = node_->right;
+      }
+    } else {
+      Node<T, V>* parent = node_->parent;
+      while (parent != nullptr && node_ == parent->left) {
+        node_ = parent;
+        parent = parent->parent;
+      }
+      node_ = parent;
+    }
+    return *this;
+  }
+
+  return *this;
+}
+
 }  // namespace s21
