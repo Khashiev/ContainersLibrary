@@ -2,6 +2,7 @@
 #define AVLTREE_H
 
 #include <cstddef>
+#include <iostream>
 
 namespace s21 {
 template <typename T, typename V>
