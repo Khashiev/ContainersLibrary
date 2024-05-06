@@ -8,7 +8,7 @@ namespace s21 {
 template <typename T, typename V>
 class Node {
  public:
-  mutable T key;
+  T key;
   int height;
   size_t size_;
 
@@ -48,7 +48,6 @@ class AVLTree {
   void Clear(Node<T, V>* node);
 
   Node<T, V>* GetRoot() const;
-  Node<T, V>* GetNil();
   bool GetInserted();
   void SetRoot(Node<T, V>* root);
   Node<T, V>* MaxKey(Node<T, V>* node);

@@ -19,6 +19,11 @@ AVLTree<T, V>& AVLTree<T, V>::operator=(AVLTree&& other) noexcept {
 }
 
 template <typename T, typename V>
+AVLTree<T, V>::~AVLTree() {
+  Clear(root);
+}
+
+template <typename T, typename V>
 int AVLTree<T, V>::Height(Node<T, V>* node) {
   if (!node) return 0;
   return node->height;
@@ -165,11 +170,6 @@ Node<T, V>* AVLTree<T, V>::Remove(Node<T, V>* node, T key) {
 }
 
 template <typename T, typename V>
-AVLTree<T, V>::~AVLTree() {
-  Clear(root);
-}
-
-template <typename T, typename V>
 void AVLTree<T, V>::Clear(Node<T, V>* node) {
   if (node != nullptr) {
     Clear(node->left);
@@ -271,11 +271,6 @@ Node<T, V>* AVLTree<T, V>::MaxKey(Node<T, V>* node) {
   }
 
   return nullptr;
-}
-
-template <typename T, typename V>
-Node<T, V>* AVLTree<T, V>::GetNil() {
-  return nil;
 }
 
 template <typename T, typename V>
