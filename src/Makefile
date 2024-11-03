@@ -1,4 +1,4 @@
-CC=gcc
+CC=g++
 CFLAGS=-Wall -Werror -Wextra
 CPPFLAGS=-lstdc++ -std=c++17
 LINUX_FLAGS=-lrt -lpthread -lm -lsubunit
@@ -6,6 +6,7 @@ TEST_LIBS=-lgtest
 TEST_SRC=tests.cpp
 GCOV_FLAGS=--coverage
 VALGRIND_FLAGS=--tool=memcheck --leak-check=yes
+FILES := $(wildcard */*.cpp) $(wildcard */*.hpp) $(wildcard */*.h) $(wildcard */*.tpp)
 OS := $(shell uname -s)
 
 ifeq ($(OS),Linux)
@@ -55,7 +56,20 @@ clean_test:
 	rm -rf gcov_report
 	rm -rf valgrind.out
 	rm -rf *.dSYM
+	rm -rf *.gcov
+	rm -rf gcov
+	rm -rf coverage
+	rm -rf coverage-html
+
 
 clean: clean_lib clean_lib clean_test clean_obj
 	rm -rf tests.out
 	rm -rf VALGRIND.txt
+
+	
+stylemake:
+	clang-format -style=Google -i $(FILES)
+stylecheck:
+	clang-format -style=Google -n $(FILES)
+
+
